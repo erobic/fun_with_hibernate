@@ -1,0 +1,5 @@
+#Fill this template, rename to db.properties to get the app running
+db.driver=org.postgresql.Driver
+db.url=jdbc:postgresql://localhost:5432/fun_with_hibernate
+db.username=##username
+db.password=##password
