@@ -1,11 +1,13 @@
-## The project demonstrates simple/advanced usages of Hibernate. ##
+## The project demonstrates basic/advanced concepts of Hibernate ORM. ##
 
-Those usages include:
-
-Bulk insertion
-Performance tests
-CRUD against Relational database
-CRUD against NoSQL
+### Concepts covered: ###
+1. CRUD against Relational database
+2. CRUD against NoSQL
+3. Bulk loads
+4. Transaction management
+5. Entity Locking
+6. Caching strategies
+7. Performance tests
 
 ### Instructions ###
 #### db.properties ####
