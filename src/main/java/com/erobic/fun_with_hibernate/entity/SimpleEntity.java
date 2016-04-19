@@ -7,8 +7,8 @@ import java.util.Date;
  * Created by robik on 4/9/16.
  */
 @Entity
-@Table(name="user_")
-public class User {
+@Table(name="simple_entity")
+public class SimpleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")

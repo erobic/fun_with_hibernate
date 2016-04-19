@@ -1,7 +1,9 @@
 package com.erobic.fun_with_hibernate.runner;
 
 import com.erobic.fun_with_hibernate.config.DbConfig;
-import com.erobic.fun_with_hibernate.entity.User;
+import com.erobic.fun_with_hibernate.entity.SimpleEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
@@ -15,44 +17,35 @@ public class UserBulkInsertionRunner {
 
     DbConfig dbConfig = new DbConfig();
     EntityManager entityManager;
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public static void main(String[] args) throws IOException {
         UserBulkInsertionRunner runner = new UserBulkInsertionRunner();
-//        runner.insertUsers(1);
-//        runner.insertUsers(10);
-//        runner.insertUsers(100);
-//        runner.insertUsers(1000);
-//        runner.insertUsers(10000);
-//        runner.insertUsers(20000);//4058
-//        runner.insertUsers(30000);//5441
-//        runner.insertUsers(40000);//7301, 9848
-//        runner.insertUsers(40000);//7301, 9848
-//        runner.insertUsers(40000);//7301, 9848
-        runner.insertUsers(40000);//7.5 secs
-        runner.insertUsers(1000000);//191076 ms
+        runner.insertUsers(1000);
     }
 
     private void insertUsers(int noOfUsers) throws IOException {
         entityManager = dbConfig.getEntityManager();
         entityManager.getTransaction().begin();
-        List<User> users = new ArrayList();
-        System.out.println("Persisting "+noOfUsers+" users");
+        List<SimpleEntity> users = new ArrayList();
+        logger.info("Persisting {} users", noOfUsers);
         long beforePersisting = System.currentTimeMillis();
 
         for (int i = 0; i < noOfUsers; i++) {
-            User user = createUser(i);
+            SimpleEntity user = createUser(i);
             entityManager.persist(user);
         }
         long afterPersisting = System.currentTimeMillis();
-        System.out.println("Flushing "+users.size()+" users");
+        logger.info("Flushing {} users", users.size());
         entityManager.flush();
         long afterFlushing = System.currentTimeMillis();
-        System.out.println("Took: "+(afterPersisting-beforePersisting)+" ms to persist "+noOfUsers+" records. And then took: "+(afterFlushing-afterPersisting)+" ms to flush the records.");
+        logger.info("Took: {} ms to persist {} records. And then took: {} ms to flush the records."
+                , (afterPersisting - beforePersisting), noOfUsers, (afterFlushing - afterPersisting));
         entityManager.getTransaction().commit();
     }
 
-    private User createUser(int i) {
-        User user = new User();
+    private SimpleEntity createUser(int i) {
+        SimpleEntity user = new SimpleEntity();
         user.setUsername("username" + i);
         user.setPassword("password" + i);
         return user;
